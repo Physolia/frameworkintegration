@@ -17,6 +17,7 @@
 
 #include <KNotifications/KNotification>
 
+#include <KNSCore/Cache>
 #include <KNSCore/Engine>
 #include <KNSCore/QuestionManager>
 
@@ -130,8 +131,10 @@ int main(int argc, char** argv)
         if (entry.status() == KNS3::Entry::Installed) {
             installedCount--;
         }
-        if (installedCount == 0)
+        if (installedCount == 0) {
+            engine.cache()->writeRegistry();
             QCoreApplication::exit(0);
+        }
     });
 
     if (!engine.init(knsname)) {
